@@ -19,6 +19,19 @@ async function start() {
     });
     await fs.writeFile("names.txt", names.join("\r\n"));
 
+    // simulating the click behavior
+    await page.click("#clickme");
+    const clickedData = await page.$eval("#data", x => x.textContent);
+    console.log(clickedData);
+
+    // simulating the typing behavior
+
+    await page.type("#ourfield", "blue");
+    await page.click("#ourform button");
+    await page.waitForNavigation();
+    const secret = await page.$eval("#message", x => x.textContent);
+    console.log(secret);
+
     //$$eval is designed to select multiple elements. It returns an actual array, not a node list.
     const photos = await page.$$eval("img", (imgs) => {
         return imgs.map(x => x.src);
